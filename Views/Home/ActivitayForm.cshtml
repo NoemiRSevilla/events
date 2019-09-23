@@ -1,0 +1,46 @@
+@using exam.Models
+@model Activitay
+    <link rel="stylesheet" href="~/css/site.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <h1 class="white mr-auto text col">Dojo Activity Center</h1>
+        <a href="/home" class="btn-btn-primary">Home</a>
+    <a href="/logout" class="btn-btn-primary">Log Out</a>
+</nav>
+<div class="col">
+    <h4>Create an Activity</h4>
+    <form asp-action="submitActivitay" asp-controller="Home" method="post">
+        <input type="hidden" asp-for="UserId" value="@ViewBag.creator.UserId">
+        <div class="form-group">
+            <span class="red" asp-validation-for="Title"></span>
+            <label asp-for="Title">Title:</label>
+            <input asp-for="Title" class="form-control" value=@TempData["Title"]>
+        </div>
+        
+        <div class="form-group">
+            <span class="red" asp-validation-for="Day"></span>
+            <label asp-for="Day">Date:</label>
+            <input type="datetime-local" asp-for="Day" class="form-control" value=@TempData["Day"]>
+        </div>
+        <div class="form-group">
+            <span class="red" asp-validation-for="Duration"></span>
+            <label asp-for="Duration">Duration:</label>
+            <input asp-for="Duration" class="form-control" value=@TempData["Duration"]>
+        </div>
+        <div class="form-group">
+            <select asp-for="DurationInfo">
+                <option>Hours</option>
+                <option>Minutes</option>
+                <option>Days</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <span class="red" asp-validation-for="Description"></span>
+            <label asp-for="Description">Description:</label>
+            <input type="Description" asp-for="Description" class="form-control" value=@TempData["Description"]>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Activity</button>
+    </form>
+</div>
+</body>

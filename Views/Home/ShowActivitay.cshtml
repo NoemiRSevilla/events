@@ -1,0 +1,33 @@
+@using exam.Models
+@model Activitay
+
+<link rel="stylesheet" href="~/css/site.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <h1 class="white mr-auto text col">Dojo Activity Center</h1>
+    <a href="/home" class="col-1">Home</a>
+    <a href="/logout" class="col-1">Logout</a>
+</nav>
+<h2>Event: <span class="red">@Model.Title</span>
+    @if (Model.RSVPs.Any(r => r.UserId == ViewBag.current.UserId))
+    {
+        <a asp-action="unRSVP" asp-controller="Home" class="btn btn-warning" asp-route-ActivitayId="@Model.ActivitayId" asp-route-UserId="@ViewBag.current.UserId">Leave</a>
+    }
+    else if (ViewBag.current.UserId == Model.UserId)
+    {
+        <a asp-action="DeleteWedding" class="btn btn-danger" asp-controller="Home" asp-route-ActivitayId="@Model.ActivitayId">Delete</a>
+    }
+    else
+    {
+        <a asp-action="GuestRSVP" asp-controller="Home" class="btn btn-primary" asp-route-ActivitayId ="@Model.ActivitayId" asp-route-UserId="@ViewBag.current.UserId">Join</a>
+    }
+    <h5>Event Coordinator: <span class="red">@Model.Creator.FirstName</span></h5>
+    <h5>Description: <span class="red">@Model.Description</span></h5>
+    <h6><ul>Participants:</h6>
+    @foreach (var x in Model.RSVPs)
+    {
+        <li><span class="red">@x.Attendees.FirstName</span></li>
+    }
+    </ul>
+</body>

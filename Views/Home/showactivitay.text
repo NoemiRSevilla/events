@@ -1,0 +1,17 @@
+
+    else if (ViewBag.current.UserId == Model.UserId)
+    {
+        <a asp-action="DeleteWedding" asp-controller="Home" asp-route-ActivitayId="@Model.ActivitayId">Delete</a>
+    }
+    else
+    {
+        <a asp-action="GuestRSVP" asp-controller="Home" asp-route-ActivitayId ="@Model.ActivitayId" asp-route-UserId="@ViewBag.current.UserId">RSVP</a>
+    }
+<h5>Event Coordinator: <span class="red">@Model.Creator.FirstName</span></h5>
+<h5>Description: <span class="red">@Model.Description</span></h5>
+<h6><ul>Participants:</h6>
+    @foreach (var x in Model.RSVPs)
+    {
+        <li><span class="red">@x.Attendees.FirstName</span></li>
+    }
+    </ul>

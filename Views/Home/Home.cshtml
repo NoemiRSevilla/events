@@ -1,0 +1,60 @@
+@using exam.Models
+@model List<Activitay>
+
+
+<link rel="stylesheet" href="~/css/site.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <h1 class="white mr-auto text col">Dojo Activity Center</h1>
+    <a href="/logout" class="btn-btn-primary">Log Out</a>
+</nav>
+<table class="table table-dark">
+    <thead>
+    <tr>
+        <th scope="col">Activity</th>
+        <th scope="col">Date and Time</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Event Coordinator</th>
+        <th scope="col">Number of Participants</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            DateTime CurrentTime = DateTime.Now;
+            @if(a.Day < CurrentTime)
+            {
+                continue;
+            }
+            else
+            {
+                <tr>
+                <td><a href="activity/@a.ActivitayId"> @a.Title</td>
+                <td>@a.Day</td>
+                <td>@a.Duration @a.DurationInfo</td>
+                <td>@a.Creator.FirstName</td>
+                <td>@a.RSVPs.Count()</td>
+                    <td>
+                        @if (a.RSVPs.Any(r => r.UserId == ViewBag.current.UserId))
+                        {
+                            <a asp-action="unRSVP" asp-controller="Home" class="btn btn-warning" asp-route-ActivitayId="@a.ActivitayId" asp-route-UserId="@ViewBag.current.UserId">Leave</a>
+                        }
+                        else if (ViewBag.current.UserId == a.UserId)
+                        {
+                            <a asp-action="DeleteActivitay" asp-controller="Home" class="btn btn-danger" asp-route-ActivitayId="@a.ActivitayId">Delete</a>
+                        }
+                        else
+                        {
+                            <a asp-action="GuestRSVP" asp-controller="Home" class="btn btn-primary" asp-route-ActivitayId ="@a.ActivitayId" asp-route-UserId="@ViewBag.current.UserId">Join</a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<a href="/new" class="btn btn-primary">Add New Activity</a>
+</body>
